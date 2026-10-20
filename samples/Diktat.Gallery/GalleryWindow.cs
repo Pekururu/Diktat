@@ -100,6 +100,19 @@ internal sealed class GalleryWindow : ThemedWindow
                 UiWidgets.Progress(theme, this.completed, 10);
             });
 
+        if (UiWidgets.Section(theme, "action-icons", "Action icons", "theme colors"))
+            UiWidgets.Surface(theme, "action-icons-card", () =>
+            {
+                var size = UiWidgets.ButtonHeight(theme);
+                foreach (var icon in Enum.GetValues<UiIcon>())
+                {
+                    UiIcons.Draw(theme, icon, size);
+                    ImGui.SameLine();
+                }
+                ImGui.NewLine();
+                UiWidgets.HelpText(theme, "Drawn from the active palette: strokes use text color, the accent part uses the accent.");
+            });
+
         if (UiWidgets.Section(theme, "rows", "Rows & game icons", "3 rows"))
         {
             var icon = this.textures.GetFromGameIcon(new GameIconLookup(60001)).GetWrapOrDefault();
