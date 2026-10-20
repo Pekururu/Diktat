@@ -95,7 +95,7 @@ public sealed class ThemeEditor
     /// <summary>Fills the available region with a scrollable editor and fixed actions.
     /// Use a readable, fixed editor theme; preview PreviewTheme in the consuming windows.
     /// Save exceptions show a retry message; the consumer's callback should log diagnostic details.</summary>
-    public void Draw(UiTheme editorTheme, string id, Action<ThemePreferences> save)
+    public void Draw(UiTheme editorTheme, string id, Action<ThemePreferences> save, bool flushRight = false)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(id);
         ArgumentNullException.ThrowIfNull(save);
@@ -117,7 +117,7 @@ public sealed class ThemeEditor
             if (UiWidgets.Button(editorTheme, "cancel", "Cancel", UiTone.Neutral)) this.Cancel();
             UiWidgets.HelpText(editorTheme, this.saveFailed ? "Save failed. See plugin log; retry or Cancel."
                 : this.IsDirty ? "Unsaved preview. Apply to keep it." : "Saved. Preview is up to date.");
-        });
+        }, flushRight);
     }
 
     private void DrawColors(UiTheme theme)
