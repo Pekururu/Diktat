@@ -1,0 +1,8 @@
+{
+  "Author": "Pekururu",
+  "Name": "Diktat Gallery",
+  "Punchline": "Tokyo Night components and state previews.",
+  "Description": "A development gallery for Diktat. Open with /diktat to inspect components, keyboard focus, disabled states, dialogs, and scaling. All interactions use local demonstration data.",
+  "ApplicableVersion": "any",
+  "Tags": ["development", "ui"]
+}

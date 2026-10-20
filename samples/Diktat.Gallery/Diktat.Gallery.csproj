@@ -1,0 +1,8 @@
+<Project Sdk="Dalamud.NET.Sdk/15.0.0">
+  <PropertyGroup>
+    <Description>Development gallery for Diktat components and interaction states.</Description>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="../../src/Diktat/Diktat.csproj" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="src/Diktat/Diktat.csproj" />
+  <Project Path="samples/Diktat.Gallery/Diktat.Gallery.csproj" />
+  <Project Path="tests/Diktat.Tests/Diktat.Tests.csproj" />
+</Solution>
