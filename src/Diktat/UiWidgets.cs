@@ -63,10 +63,14 @@ public static class UiWidgets
         ArgumentNullException.ThrowIfNull(footer);
         if (!float.IsFinite(footerHeight) || footerHeight < 0) throw new ArgumentOutOfRangeException(nameof(footerHeight));
         var bodyHeight = Math.Max(1, ImGui.GetContentRegionAvail().Y - footerHeight - theme.Metrics.ItemSpacing.Y * ImGuiHelpers.GlobalScale);
-        using (var child = ImRaii.Child($"body##{id}", new Vector2(flushRight ? ImGui.GetContentRegionAvail().X + ImGui.GetStyle().WindowPadding.X : 0, bodyHeight), false))
+        // The parent clips its content half a padding inside the edge, which would cut the extended child's scrollbar.
+        if (flushRight) ImGui.PushClipRect(ImGui.GetWindowPos(), ImGui.GetWindowPos() + ImGui.GetWindowSize(), false);
+        try
         {
+            using var child = ImRaii.Child($"body##{id}", new Vector2(flushRight ? ImGui.GetContentRegionAvail().X + ImGui.GetStyle().WindowPadding.X : 0, bodyHeight), false);
             if (child) body();
         }
+        finally { if (flushRight) ImGui.PopClipRect(); }
         footer();
     }
 
