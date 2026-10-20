@@ -54,23 +54,18 @@ public static class UiWidgets
     }
 
     /// <summary>Scrolls only the body. Measure footerHeight in pixels using the active font and available width.
-    /// The caller must provide enough window height for the footer plus a usable body.
-    /// <paramref name="flushRight"/> extends the body over the window padding so its scrollbar sits on the window edge, like a scrolling window's.</summary>
-    public static void BodyWithFooter(UiTheme theme, string id, float footerHeight, Action body, Action footer, bool flushRight = false)
+    /// The caller must provide enough window height for the footer plus a usable body.</summary>
+    public static void BodyWithFooter(UiTheme theme, string id, float footerHeight, Action body, Action footer)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(id);
         ArgumentNullException.ThrowIfNull(body);
         ArgumentNullException.ThrowIfNull(footer);
         if (!float.IsFinite(footerHeight) || footerHeight < 0) throw new ArgumentOutOfRangeException(nameof(footerHeight));
         var bodyHeight = Math.Max(1, ImGui.GetContentRegionAvail().Y - footerHeight - theme.Metrics.ItemSpacing.Y * ImGuiHelpers.GlobalScale);
-        // The parent clips its content half a padding inside the edge, which would cut the extended child's scrollbar.
-        if (flushRight) ImGui.PushClipRect(ImGui.GetWindowPos(), ImGui.GetWindowPos() + ImGui.GetWindowSize(), false);
-        try
+        using (var child = ImRaii.Child($"body##{id}", new Vector2(0, bodyHeight), false))
         {
-            using var child = ImRaii.Child($"body##{id}", new Vector2(flushRight ? ImGui.GetContentRegionAvail().X + ImGui.GetStyle().WindowPadding.X : 0, bodyHeight), false);
             if (child) body();
         }
-        finally { if (flushRight) ImGui.PopClipRect(); }
         footer();
     }
 
